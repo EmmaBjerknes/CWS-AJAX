@@ -6,7 +6,7 @@ const searchName:HTMLButtonElement = document.querySelector('#countryName') as H
 
 let url: string = "https://restcountries.com/v3.1/";
 
-let countryArray:object[] = [];
+//let countryArray:object[] = [];
 
 
 searchName.addEventListener('click', function(event){
@@ -14,18 +14,20 @@ searchName.addEventListener('click', function(event){
     let valueOfInput = countryName.value;
     url += "name/" + valueOfInput; 
     console.log(url)
-    foo(url);
-    
+    foo(url); 
 });
 
 async function foo(x:string) {
     const response = await fetch(x);
     const data = await response.json();
-    countryArray = await data;
-    myCountry(countryArray);
+    //countryArray = await data;
+    myCountry(data);
 }
 
 function myCountry(pickedCountry:any){
     console.log(typeof pickedCountry);
     console.log(pickedCountry[0].name.common);
 }
+
+
+//const urlAll: string = "https://restcountries.com/v3.1/all";
