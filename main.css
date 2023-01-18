@@ -1,0 +1,11 @@
+.countryBoxes{
+    background-color: azure;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;   
+}
+
+.display-All-countries{
+    display: flex;
+    flex-flow: row wrap;
+}

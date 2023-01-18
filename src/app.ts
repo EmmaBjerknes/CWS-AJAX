@@ -1,33 +1,45 @@
 const countryDiv:HTMLDivElement = document.querySelector('.display-country') as HTMLDivElement;
-
-const countryName:HTMLInputElement = document.querySelector('.countryNameInput') as HTMLInputElement;
-
+const allCountries:HTMLDivElement = document.querySelector('.display-All-countries') as HTMLDivElement;
+const countryNameInput:HTMLInputElement = document.querySelector('.countryNameInput') as HTMLInputElement;
 const searchName:HTMLButtonElement = document.querySelector('#countryName') as HTMLButtonElement;
-
-let url: string = "https://restcountries.com/v3.1/";
-
-//let countryArray:object[] = [];
-
 
 searchName.addEventListener('click', function(event){
     event.preventDefault();
-    let valueOfInput = countryName.value;
-    url += "name/" + valueOfInput; 
-    console.log(url)
-    foo(url); 
+    let url: string = "https://restcountries.com/v3.1/name/" + countryNameInput.value;
+    countryDiv.innerHTML = "";
+    getSearchedCountry(url); 
 });
 
-async function foo(x:string) {
+async function getSearchedCountry(x:string) {
     const response = await fetch(x);
     const data = await response.json();
-    //countryArray = await data;
-    myCountry(data);
-}
+    showCountryInfo(data);
+};
 
-function myCountry(pickedCountry:any){
-    console.log(typeof pickedCountry);
-    console.log(pickedCountry[0].name.common);
-}
+function showCountryInfo(pickedCountry:any){
+    const countryInfo = document.createElement('div');
 
+    const countryOfficial = document.createElement('p')
+    countryOfficial.innerText = pickedCountry[0].name.official;
 
-//const urlAll: string = "https://restcountries.com/v3.1/all";
+    const countryCap = document.createElement('p');
+    countryCap.innerText = pickedCountry[0].capital
+
+    const countryPop = document.createElement('p');
+    countryPop.innerText = pickedCountry[0].population
+
+    countryInfo.append(countryOfficial, countryCap, countryPop);
+    countryDiv.append(countryInfo);
+};
+
+async function getAll() {
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    const data = await response.json();
+    data.forEach((country: any) => {
+        const countryCard = document.createElement("inline-block");
+        countryCard.className = "countryBoxes";
+        countryCard.innerHTML = `${country.name.official}`;
+        allCountries.append(countryCard);
+    });
+};
+getAll();
